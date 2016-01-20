@@ -1,0 +1,56 @@
+import java.util.*;
+import java.lang.*;
+
+class Main
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		
+		Scanner s = new Scanner(System.in);
+		int testCases = s.nextInt();
+		
+		//find all the primes up to square root of 1,000,000,000
+		double d = 1000000000;
+		int maxPrimes = (int) Math.sqrt(d);
+		boolean[] primes = new boolean[maxPrimes+1];
+		primes[0] = true;
+		primes[1] = true;
+		for(int i=2; i<=maxPrimes; i++){
+			if(primes[i] == false){
+				for(int j=i+i; j<maxPrimes; j+=i){
+					primes[j] = true;}}
+		}
+		
+		for(int tests = 0; tests < testCases; tests++){
+			int min = s.nextInt();
+			int max = s.nextInt();
+			double m = max;
+			int rootMax = (int) Math.sqrt(m);
+		
+			//find primes between min and max
+			//divide all of numbers between min and max by the list of primes up to root of max
+			boolean[] selectPrimes = new boolean[max-min+1];
+			if(min == 0){
+				selectPrimes[0] = true;
+				selectPrimes[1] = true;}
+			else if(min == 1){
+				selectPrimes[0] = true;}
+			//for all existing primes up to k
+			for(int k = 2; k <= rootMax; k++){
+				if(primes[k] == false){
+					for(int l = 0; l < selectPrimes.length; l++){
+						int current = min + l;
+						if(current%k == 0 && current!=k){
+							selectPrimes[l] = true;}
+					}
+				}
+			}
+			
+			for(int n = 0; n < selectPrimes.length; n++){
+				if(!selectPrimes[n]){
+					System.out.println(min + n);}
+			}
+			System.out.println();
+		}
+	}
+}
